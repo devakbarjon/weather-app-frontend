@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import CurrentWeather from "./components/CurrentWeather";
 import ForecastList from "./components/ForecastList";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap
+import config from './config';
 
 export default function App() {
   const [city, setCity] = useState("");
@@ -17,9 +18,10 @@ export default function App() {
         if (!city) {
           const res = await fetch('https://api.ipify.org?format=json');
           const data = await res.json();
-          response = await fetch(`http://localhost:8000/api/v1/weather/forecast?ip_address=${data.ip}`);
+          response = await fetch(`${config.apiUrl}/weather/forecast?ip_address=${data.ip}`);
+          console.log("config", config.apiUrl);
         } else {
-          response = await fetch(`http://localhost:8000/api/v1/weather/forecast?city=${city}`);
+          response = await fetch(`${config.apiUrl}/weather/forecast?city=${city}`);
         }
 
         if (response.status !== 200) {
